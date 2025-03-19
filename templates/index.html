@@ -88,12 +88,24 @@
         <button onclick="window.location.href='/api4'">Comparar Modelos</button>
     </div>
 
-    {% if graph_image or mask_image or additional_image %}
+    {% if graph_image_path or mask_image_path or additional_image_path %}
         <h2>Distribución de Máscaras</h2>
         <div class="image-grid">
-            {% if graph_image %}<div class="image-item"><img src="{{ graph_image }}" alt="Gráfica de distribución"></div>{% endif %}
-            {% if mask_image %}<div class="image-item"><img src="{{ mask_image }}" alt="Imagen de máscara"></div>{% endif %}
-            {% if additional_image %}<div class="image-item"><img src="{{ additional_image }}" alt="Imagen adicional"></div>{% endif %}
+            {% if graph_image_path %}
+                <div class="image-item">
+                    <img src="{{ graph_image_path }}" alt="Gráfica de distribución">
+                </div>
+            {% endif %}
+            {% if mask_image_path %}
+                <div class="image-item">
+                    <img src="{{ mask_image_path }}" alt="Imagen de máscara">
+                </div>
+            {% endif %}
+            {% if additional_image_path %}
+                <div class="image-item">
+                    <img src="{{ additional_image_path }}" alt="Imagen adicional">
+                </div>
+            {% endif %}
         </div>
     {% endif %}
 

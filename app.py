@@ -74,8 +74,34 @@ def visualizar():
     fig.savefig(graph_image_path, bbox_inches="tight")
     plt.close(fig)
 
-    return render_template('index.html',
-                           graph_image=url_for('static', filename='images/graph.png'))
+    # Cargar y guardar la imagen de la máscara
+    mask_image_name = os.path.basename(brain_df.loc[623, 'mask_path'])
+    mask_image_path = buscar_imagen(mask_image_name)
+
+    if mask_image_path:
+        mask_img = cv2.imread(mask_image_path, cv2.IMREAD_UNCHANGED)
+        output_mask_path = os.path.join(STATIC_FOLDER, "mask_image.png")
+        mask_image_path = guardar_imagen(mask_img, output_mask_path)
+    else:
+        mask_image_path = None
+
+    # Cargar y guardar la imagen adicional
+    additional_image_name = os.path.basename(brain_df.loc[623, 'image_path'])
+    additional_image_path = buscar_imagen(additional_image_name)
+
+    if additional_image_path:
+        additional_img = cv2.imread(additional_image_path, cv2.IMREAD_COLOR)
+        output_additional_path = os.path.join(STATIC_FOLDER, "additional_image.png")
+        additional_image_path = guardar_imagen(additional_img, output_additional_path)
+    else:
+        additional_image_path = None
+
+    return render_template(
+        'index.html',
+        graph_image_path=url_for('static', filename="images/graph.png"),
+        mask_image_path=url_for('static', filename="images/mask_image.png") if mask_image_path else None,
+        additional_image_path=url_for('static', filename="images/additional_image.png") if additional_image_path else None
+    )
 
 @app.route('/api2')
 def mostrar_imagenes():
